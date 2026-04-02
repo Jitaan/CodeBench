@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # CodeBench
+=======
+>>>>>>> e23633aa9f01367418fdcfb25ca6478a33168dd3
 # CodeBench — Online Coding Practice Platform
 
 CodeBench is a web-based coding practice platform that allows users to authenticate using Email, Google, or GitHub and practice coding problems in Python through an interactive problems dashboard.
@@ -228,4 +231,5 @@ http://localhost:5000
 
 Make sure both servers are running simultaneously for full functionality.
 
+---
 ---
