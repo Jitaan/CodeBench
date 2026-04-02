@@ -4,6 +4,10 @@ from routes import routes
 
 routes = Blueprint("routes",__name__)
 
+def get_testcases(problem_id):
+    response = (supabase.table("testcases").select("*").eq("problem_id", problem_id).execute())
+    return response.data
+
 @routes.route("/problems", methods=["GET"])
 def get_problems():
     response = (supabase.table("problems").select("id", "title", "difficulty").execute())
@@ -13,18 +17,3 @@ def get_problems():
 def get_problem(id):
     response = (supabase.table("problems").select("*").eq("id",id).execute())
     return jsonify(response.data)
-
-@routes.route("/submissions", methods= ["POST"])
-def submit_code():
-    data = request.join
-
-    code = data["code"]
-    problem_id = data["problem_id"]
-
-    testcases = get_testcases(problem_id)
-
-    return jsonify({
-        "message" : "Submission Recieved",
-        "data" : response.data
-    })
-

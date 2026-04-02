@@ -35,6 +35,25 @@ function EditorPanel({ problemId, userId }) {
     }
   };
 
+  const handleRun = async () => {
+
+    try {
+      const res = await API.post(
+        "/run",
+        {
+          problem_id: problemId,
+          code: code,
+          user_id: userId
+        }
+      );
+      setResult(res.data.status);
+      setDetails(res.data);
+    }
+    catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <ResizablePanelGroup orientation="vertical" className="
         flex
@@ -52,7 +71,7 @@ function EditorPanel({ problemId, userId }) {
           gap-3
         "
         >
-          <Button variant="outline" className="w-30 cursor-pointer rounded-md">Run</Button>
+          <Button variant="outline" className="w-30 cursor-pointer rounded-md" onClick={handleRun}>Run</Button>
           <Button className="rounded-md bg-green-700 hover:bg-green-600 w-30 cursor-pointer text-white" onClick={handleSubmit} >Submit</Button>
         </div>
         

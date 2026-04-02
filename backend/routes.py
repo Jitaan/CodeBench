@@ -75,3 +75,43 @@ def submit_code():
         "status": "Accepted"
     })
 
+@routes.route("/run", methods= ["POST"])
+def run_code():
+    data = request.json
+
+    code = data["code"]
+    problem_id = data["problem_id"]
+
+    testcases = get_testcases(problem_id)
+
+    if not testcases:
+        return jsonify({
+            "status": "No testcases found"
+        })
+
+    final_status = "Accepted"
+    failed_input = None
+    expected_output = None
+    for tc in testcases:
+        result = judge_code(
+            code,
+            tc["input"],
+            tc["expected_output"]
+        )
+
+        if result != "Accepted":
+            final_status = result
+            failed_input = tc["input"]
+            expected_output = tc["expected_output"]
+            break 
+    
+    if final_status != "Accepted":
+        return jsonify({
+            "status": final_status,
+            "input": failed_input,
+            "expected": expected_output
+        })
+
+    return jsonify({
+        "status": "Accepted"
+    })
