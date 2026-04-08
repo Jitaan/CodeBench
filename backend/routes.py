@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from backend.database import supabase
+from database import supabase
 
 import sys
 import os
@@ -10,7 +10,7 @@ project_root = os.path.abspath(os.path.join(current_dir, ".."))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from backend.runner.execute import judge_code
+from runner.execute import judge_code
 
 routes = Blueprint("routes",__name__)
 
