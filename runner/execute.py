@@ -47,6 +47,5 @@ def judge_code(code, test_input, expected_output):
 
     if result["output"].strip() == expected_output.strip():
         return "Accepted"
-
     else:
         return "Wrong Answer"
