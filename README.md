@@ -39,7 +39,7 @@ The platform includes secure authentication, session management, a responsive us
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/your-username/codebench.git
+git clone https://github.com/Jitaan/codebench.git
 cd codebench
 ````
 
