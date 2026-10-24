@@ -1,61 +1,62 @@
 # CodeBench
 
-CodeBench is a web-based coding practice platform that allows users to authenticate using Email, Google, or GitHub and practice coding problems in Python through an interactive problems dashboard.
+CodeBench is a web-based coding practice platform for solving Python programming problems through an interactive coding environment.
 
-The platform includes secure authentication, session management, a responsive user interface, and a Flask API backend that executes Python code against predefined test cases.
+Users can authenticate using **Email, Google, or GitHub**, browse coding problems, submit Python solutions, and have their code evaluated against predefined test cases.
 
----
+**Live Demo:** https://code-bench-iota.vercel.app/
 
-🔗 [code-bench-iota.vercel.app](https://code-bench-iota.vercel.app/)
+## Features
 
-# Tech Stack
+* User authentication with Email, Google, and GitHub
+* Interactive coding problems dashboard
+* Python code execution and test-case evaluation
+* User session management
+* Responsive interface
+* Secure backend API
+* Persistent authentication and user data with Supabase
 
-## Frontend
+## Tech Stack
 
-* React  
-* React Router  
-* Tailwind CSS  
-* shadcn/ui  
-* Axios (API Communication)  
+### Frontend
 
-## Backend
+* React
+* React Router
+* Tailwind CSS
+* shadcn/ui
+* Axios
 
-* Flask API  
+### Backend
 
-## Authentication
+* Flask
+* Python
 
-* Supabase Authentication  
-* Supabase Database  
+### Authentication & Database
 
-## OAuth Providers
+* Supabase Authentication
+* Supabase Database
+* Google OAuth
+* GitHub OAuth
 
-* Google OAuth  
-* GitHub OAuth  
+## Architecture
 
----
-
-# Installation
-
-## 1. Clone Repository
-
-```bash
-git clone https://github.com/Jitaan/codebench.git
-cd codebench
-````
-
----
-
-## 2. Install Frontend Dependencies
-
-```bash
-npm install
+```text
+React Frontend
+      │
+      ├── Supabase Auth
+      │
+      └── Flask API
+             │
+             └── Python Code Execution
+                    │
+                    └── Test Cases
 ```
 
----
+## Deployment
 
-## 3. Setup Supabase
+The frontend is deployed on **Vercel**.
 
-Go to:
+The Flask backend provides the API endpoints used for Python code execution and evaluation.
 
 [https://supabase.com](https://supabase.com)
 
