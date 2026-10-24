@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../services/api";
+import { problemAPI } from "../services/api";
 import ProblemRow from "./ProblemRow";
 import {
   Table,
@@ -13,20 +13,21 @@ import {
 function ProblemList({user}) {
   const [problems, setProblems] = useState([]);
   useEffect(() => {
-    API.get("/problems")
+    problemAPI.getAll()
       .then(res => {
+        console.log("DATA:", res.data);
+        console.log("IS ARRAY:", Array.isArray(res.data));
         setProblems(res.data);
       })
       .catch(err => {
         console.error(err);
       });
-
   }, []);
 
   return (
-    <div className="problem-table-wrap">
-      <Table className="w-250">
-        <TableCaption>git good at problem solving & programming. use codebench today.</TableCaption>
+    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      <Table>
+        <TableCaption className="px-4 pb-4 text-left">Build consistency, one problem at a time.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>#</TableHead>

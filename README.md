@@ -199,6 +199,29 @@ http://localhost:5000
 
 ---
 
+# Contest Registration and Scoring
+
+- Sign in with Supabase Auth before registering for a contest.
+- Register from the contests page before the scheduled start time. Registration closes when the contest starts.
+- During an active contest, only registered participants can enter and solve its problems.
+- Submit a solution and receive an **Accepted** verdict to earn the points configured for that problem in `contest_problems.points`. Points are awarded once per participant per problem; using **Run** does not award points.
+- Questions in past contests open in practice mode and do not add contest points. Accepted submissions from before this scoring behavior was deployed are not credited retroactively.
+
+## Backend Environment Variables
+
+Create `backend/.env` with the Supabase project URL and a server-side service-role key:
+
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+Keep the service-role key private and only in the backend environment. Do not add it to frontend environment variables or commit it. The backend uses this key to authenticate participants, read contest data, and update scores. Restart the Flask server after changing backend environment variables or code.
+
+For a deployed frontend, set `VITE_API_BASE_URL` to the public base URL of the Flask API before building the frontend. Locally it defaults to `http://localhost:5000`.
+
+---
+
 # Running the Full Application
 
 Run backend and frontend in **separate terminals**.

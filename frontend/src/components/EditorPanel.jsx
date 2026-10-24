@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Editor from "@monaco-editor/react";
-import API from "../services/api";
+import { judgeAPI } from "../services/api";
 
 import { Button } from "@/components/ui/button"
 
@@ -10,44 +11,52 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
 
-function EditorPanel({ problemId, userId }) {
-
+function EditorPanel({ problemId, userId, email, contestId }) {
+  const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [result, setResult] = useState("");
-  const [details, setDetails] = useState(null);
+  const [awardMessage, setAwardMessage] = useState("");
 
   const handleSubmit = async () => {
 
     try {
-      const res = await API.post(
-        "/submit",
+      const res = await judgeAPI.submit(
         {
           problem_id: problemId,
           code: code,
-          user_id: userId
+          user_id: userId,
+          email: email,
+          contest_id: contestId || null
         }
       );
       setResult(res.data.status);
-      setDetails(res.data);
+      if (res.data.status === "Accepted" && contestId) {
+        setAwardMessage(res.data.newly_solved
+          ? `Solved. ${res.data.awarded_points} points added to your score.`
+          : "Already solved. No additional points were awarded.");
+        navigate(`/contests/${contestId}`, { state: { refresh: Date.now() } });
+      } else {
+        setAwardMessage("");
+      }
     }
     catch (err) {
       console.error(err);
+      setAwardMessage(err.message || "Submission failed.");
     }
   };
 
   const handleRun = async () => {
 
     try {
-      const res = await API.post(
-        "/run",
+      const res = await judgeAPI.run(
         {
           problem_id: problemId,
           code: code,
-          user_id: userId
+          user_id: userId,
+          contest_id: contestId || null
         }
       );
       setResult(res.data.status);
-      setDetails(res.data);
     }
     catch (err) {
       console.error(err);
@@ -148,7 +157,7 @@ function EditorPanel({ problemId, userId }) {
               : "You must run your code first"}
 
           </div>
-
+          {awardMessage && <p className="mt-3 text-sm text-muted-foreground" role="status">{awardMessage}</p>}
 
         </div>
       </ResizablePanel>

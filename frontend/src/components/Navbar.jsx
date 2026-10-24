@@ -40,34 +40,41 @@ function Navbar() {
   };
 
   return (
-    <div className="w-[70vw] pb-10 flex items-center justify-between relative">
+    <header className="w-full border-b border-border bg-background/80 backdrop-blur-sm">
+    <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 relative">
       <div
-        className="w-75 font-extrabold text-4xl cursor-pointer"
+        className="cursor-pointer text-lg font-semibold tracking-tight"
         onClick={() => navigate("/")}
       >
         CodeBench
       </div>
 
-      <div className="w-75 flex flex-row gap-8 text-lg justify-center">
+      <nav className="hidden items-center gap-1 sm:flex">
         <div
-          className="cursor-pointer hover:underline"
+          className="cursor-pointer rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           onClick={() => navigate("/")}
         >
           Home
         </div>
         <div
-          className="cursor-pointer hover:underline"
+          className="cursor-pointer rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          onClick={() => navigate("/contests")}
+        >
+          Contests
+        </div>
+        <div
+          className="cursor-pointer rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           onClick={() => navigate("/#")}
         >
           About
         </div>
-      </div>
+      </nav>
 
-      <div className="w-75 flex justify-end" ref={dropdownRef}>
+      <div className="flex justify-end" ref={dropdownRef}>
         {!loading && !user && (
           <button
             onClick={() => navigate("/login")}
-            className="cursor-pointer px-4 py-2 border rounded-lg"
+            className="cursor-pointer rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
           >
             Login
           </button>
@@ -83,22 +90,22 @@ function Navbar() {
               }`
             }
             alt="avatar"
-            className="w-10 h-10 rounded-full cursor-pointer hover:ring-2 hover:ring-white"
+            className="h-8 w-8 cursor-pointer rounded-full ring-1 ring-border transition-shadow hover:ring-2 hover:ring-primary"
             onClick={() => setOpen(!open)}
             referrerPolicy="no-referrer"
           />
         )}
         {open && user && (
         <div
-          className="absolute right-0 mt-2 w-70 bg-[#1a1d26] border border-[#252a3a] rounded-lg shadow-lg"
+          className="absolute right-0 top-12 z-10 w-64 overflow-hidden rounded-lg border border-border bg-popover shadow-lg"
         >
 
-          <div className="px-4 py-2 text-sm text-gray-400 border-b border-[#252a3a]">
+          <div className="border-b border-border px-4 py-3 text-sm text-muted-foreground">
             {user.email}
           </div>
 
           <div
-            className="px-4 py-2 text-sm cursor-pointer hover:bg-[#252a3a]"
+            className="cursor-pointer px-4 py-3 text-sm transition-colors hover:bg-muted"
             onClick={handleLogout}
           >
             Logout
@@ -108,6 +115,7 @@ function Navbar() {
       )}
       </div>
     </div>
+    </header>
   );
 
 }
