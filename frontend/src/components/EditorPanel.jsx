@@ -69,7 +69,7 @@ function EditorPanel({ problemId, userId, email, contestId }) {
         flex-col
         h-full
       ">
-      <ResizablePanel>
+      <ResizablePanel defaultSize="80%">
         <div
           className="
           p-0.5

@@ -41,40 +41,36 @@ function Navbar() {
 
   return (
     <header className="w-full border-b border-border bg-background/80 backdrop-blur-sm">
-    <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 relative">
-      <div
-        className="cursor-pointer text-lg font-semibold tracking-tight"
-        onClick={() => navigate("/")}
-      >
-        CodeBench
-      </div>
-
-      <nav className="hidden items-center gap-1 sm:flex">
+    <div className="mx-auto max-w-6xl px-5 flex h-20 items-center justify-between relative">
+      <div className="flex items-center">
         <div
-          className="cursor-pointer rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="cursor-pointer text-4xl font-extrabold leading-none"
           onClick={() => navigate("/")}
         >
-          Home
+          CodeBench
+        </div>
+      </div>
+
+      <nav className="absolute left-1/2 hidden h-full -translate-x-1/2 items-center justify-center gap-1 sm:flex">
+        <div
+          className="cursor-pointer rounded-md px-3 py-2 text-base text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          onClick={() => navigate("/")}
+        >
+          Problems
         </div>
         <div
-          className="cursor-pointer rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="cursor-pointer rounded-md px-3 py-2 text-base text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           onClick={() => navigate("/contests")}
         >
           Contests
         </div>
-        <div
-          className="cursor-pointer rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          onClick={() => navigate("/#")}
-        >
-          About
-        </div>
       </nav>
 
-      <div className="flex justify-end" ref={dropdownRef}>
+      <div className="flex items-center" ref={dropdownRef}>
         {!loading && !user && (
           <button
             onClick={() => navigate("/login")}
-            className="cursor-pointer rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="cursor-pointer rounded-md bg-foreground px-4 py-2 text-base font-medium text-background transition-opacity hover:opacity-90"
           >
             Login
           </button>
@@ -90,29 +86,29 @@ function Navbar() {
               }`
             }
             alt="avatar"
-            className="h-8 w-8 cursor-pointer rounded-full ring-1 ring-border transition-shadow hover:ring-2 hover:ring-primary"
+            className="h-10 w-10 cursor-pointer rounded-full ring-1 ring-border transition-shadow hover:ring-2 hover:ring-primary"
             onClick={() => setOpen(!open)}
             referrerPolicy="no-referrer"
           />
         )}
         {open && user && (
-        <div
-          className="absolute right-0 top-12 z-10 w-64 overflow-hidden rounded-lg border border-border bg-popover shadow-lg"
-        >
-
-          <div className="border-b border-border px-4 py-3 text-sm text-muted-foreground">
-            {user.email}
-          </div>
-
           <div
-            className="cursor-pointer px-4 py-3 text-sm transition-colors hover:bg-muted"
-            onClick={handleLogout}
+            className="absolute right-0 top-20 z-10 w-64 overflow-hidden rounded-lg border border-border bg-popover shadow-lg"
           >
-            Logout
-          </div>
 
-        </div>
-      )}
+            <div className="border-b border-border px-4 py-3 text-sm text-muted-foreground">
+              {user.email}
+            </div>
+
+            <div
+              className="cursor-pointer px-4 py-3 text-sm transition-colors hover:bg-muted"
+              onClick={handleLogout}
+            >
+              Logout
+            </div>
+
+          </div>
+        )}
       </div>
     </div>
     </header>

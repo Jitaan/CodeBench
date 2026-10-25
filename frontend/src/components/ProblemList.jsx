@@ -27,7 +27,7 @@ function ProblemList({user}) {
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
       <Table>
-        <TableCaption className="px-4 pb-4 text-left">Build consistency, one problem at a time.</TableCaption>
+        <TableCaption className="px-4 pb-4 text-center">Build consistency, one problem at a time.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>#</TableHead>

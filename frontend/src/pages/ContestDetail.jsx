@@ -167,7 +167,7 @@ function ContestDetail() {
   return (
     <>
     <Navbar />
-    <main className="mx-auto min-h-[calc(100vh-4rem)] max-w-5xl px-5 py-10 sm:py-16">
+    <main className="mx-auto min-h-[calc(100vh-4rem)] max-w-6xl px-5 py-10 sm:py-16">
       <button onClick={() => navigate("/contests")} className="mb-8 text-sm text-muted-foreground transition-colors hover:text-foreground">
         &larr; All contests
       </button>
@@ -268,9 +268,7 @@ function ContestDetail() {
                   <TableRow>
                     <TableHead>#</TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Email</TableHead>
                     <TableHead>Score</TableHead>
-                    <TableHead>Joined At</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -278,13 +276,7 @@ function ContestDetail() {
                     <TableRow key={p.id}>
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{p.users?.name || "Unknown"}</TableCell>
-                      <TableCell>{p.users?.email || "—"}</TableCell>
                       <TableCell>{p.score ?? 0}</TableCell>
-                      <TableCell>
-                        {p.joined_at
-                          ? new Date(p.joined_at).toLocaleString()
-                          : "—"}
-                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

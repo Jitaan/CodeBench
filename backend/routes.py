@@ -272,7 +272,7 @@ def get_contest_participants(contest_id):
         return jsonify({"error": "Contest registration required"}), 403
 
     response = (supabase.table("contest_participants")
-                .select("*, users(id, name, email)", count="exact")
+                .select("*, users(name)", count="exact")
                 .eq("contest_id", contest_id)
                 .order("score", desc=True)
                 .order("id")

@@ -15,13 +15,12 @@ import {
 
 function ContestTable({ contests, past = false, currentTime, registrations = {}, joiningContest, onRegistration, onEnter, onView }) {
   if (contests.length === 0) {
-    return <p className="py-6 text-sm text-muted-foreground">{past ? "No past contests yet." : "No upcoming contests available."}</p>;
+    return <p className="py-6 text-2sm text-muted-foreground">{past ? "No past contests yet." : "No upcoming contests available. Stay tuned !!"}</p>;
   }
 
   return (
     <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
       <Table>
-        <TableCaption className="px-4 pb-4 text-left">{past ? "Finished contests and results" : "Scheduled and active contests"}</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-16">#</TableHead>
@@ -37,7 +36,6 @@ function ContestTable({ contests, past = false, currentTime, registrations = {},
             const startsAt = new Date(contest.start_time).getTime();
             const endsAt = new Date(contest.end_time).getTime();
             const registrationOpen = !past && Number.isFinite(startsAt) && currentTime < startsAt && !registered;
-            const canCancel = !past && Number.isFinite(startsAt) && currentTime < startsAt && registered;
             const canEnter = !past && registered && Number.isFinite(startsAt) && Number.isFinite(endsAt) && startsAt <= currentTime && currentTime < endsAt;
 
             return (
@@ -47,33 +45,29 @@ function ContestTable({ contests, past = false, currentTime, registrations = {},
                 <TableCell className="text-muted-foreground">{new Date(contest.start_time).toLocaleString()}</TableCell>
                 <TableCell className="text-muted-foreground">{new Date(contest.end_time).toLocaleString()}</TableCell>
                 <TableCell className="w-[24%] text-center">
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {past ? (
-                      <Button size="sm" onClick={() => onView(contest.id)}>View Contest</Button>
-                    ) : (
-                      <>
-                        <Button
-                          variant={canCancel ? "outline" : "default"}
-                          size="sm"
-                          disabled={joiningContest === contest.id || (!registrationOpen && !canCancel)}
-                          onClick={() => onRegistration(contest.id, !registered)}
-                        >
-                          {joiningContest === contest.id
-                            ? "Updating..."
-                            : canCancel
-                              ? "Cancel Registration"
-                              : registered
-                                ? "Registered"
-                                : registrationOpen
-                                  ? "Register"
-                                  : "Registration closed"}
-                        </Button>
-                        <Button size="sm" disabled={!canEnter} onClick={() => onEnter(contest.id)}>
-                          Enter Contest
-                        </Button>
-                      </>
-                    )}
-                  </div>
+                  {past ? (
+                    <Button size="sm" onClick={() => onView(contest.id)}>View Contest</Button>
+                  ) : registered ? (
+                    <Button
+                      size="sm"
+                      disabled={!canEnter || joiningContest === contest.id}
+                      onClick={() => onEnter(contest.id)}
+                    >
+                      {joiningContest === contest.id ? "Updating..." : "Enter Contest"}
+                    </Button>
+                  ) : registrationOpen ? (
+                    <Button
+                      size="sm"
+                      disabled={joiningContest === contest.id}
+                      onClick={() => onRegistration(contest.id, true)}
+                    >
+                      {joiningContest === contest.id ? "Updating..." : "Register Contest"}
+                    </Button>
+                  ) : (
+                    <Button size="sm" disabled>
+                      Registration closed
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             );
@@ -156,10 +150,13 @@ function ContestList() {
     const endsAt = new Date(contest.end_time).getTime();
     return !Number.isFinite(endsAt) || endsAt > currentTime;
   }), [contests, currentTime]);
-  const pastContests = useMemo(() => contests.filter((contest) => {
-    const endsAt = new Date(contest.end_time).getTime();
-    return Number.isFinite(endsAt) && endsAt <= currentTime;
-  }), [contests, currentTime]);
+  const pastContests = useMemo(() => contests
+    .filter((contest) => {
+      const endsAt = new Date(contest.end_time).getTime();
+      return Number.isFinite(endsAt) && endsAt <= currentTime;
+    })
+    .sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime()),
+  [contests, currentTime]);
 
   if (loading) return <div className="py-12 text-center text-sm text-muted-foreground">Loading contests...</div>;
   if (error && contests.length === 0) return <div className="py-12 text-center text-sm text-destructive">{error}</div>;
@@ -169,8 +166,7 @@ function ContestList() {
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       <section aria-labelledby="upcoming-contests-heading" className="space-y-4">
         <div>
-          <h2 id="upcoming-contests-heading" className="text-lg font-semibold tracking-tight">Upcoming contests</h2>
-          <p className="text-sm text-muted-foreground">Register before the start, then enter once the contest opens.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Upcoming contests</h1>
         </div>
         <ContestTable
           contests={upcomingContests}
@@ -184,8 +180,7 @@ function ContestList() {
       </section>
       <section aria-labelledby="past-contests-heading" className="space-y-4">
         <div>
-          <h2 id="past-contests-heading" className="text-lg font-semibold tracking-tight">Past contests</h2>
-          <p className="text-sm text-muted-foreground">Review completed questions and the final leaderboard.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Previous contests</h1>
         </div>
         <ContestTable contests={pastContests} past currentTime={currentTime} onView={(contestId) => navigate(`/contests/${contestId}`)} />
       </section>
